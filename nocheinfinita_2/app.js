@@ -2,14 +2,16 @@ const express = require('express');
 const cors = require('cors');
 
 // Crear las instancias de express
-const appEventos = express();    // Para el microservicio de eventos
-const appDJs = express();        // Para el microservicio de DJs
-const appReservasVIP = express(); // Para el microservicio de ReservasVIP
+const appEventos = express();      // Para el microservicio de eventos
+const appDJs = express();          // Para el microservicio de DJs
+const appReservasVIP = express();  // Para el microservicio de ReservasVIP
+const appVentasBebidas = express(); // Para el microservicio de VentasBebidas
 
 // Puertos de cada microservicio
 const portEventos = 3001;
-const portDJs = 3003;           // Puerto para el microservicio de DJs
-const portReservasVIP = 3002;   // Puerto para el microservicio de ReservasVIP
+const portDJs = 3003;
+const portReservasVIP = 3002;
+const portVentasBebidas = 3004;  // Puerto para el microservicio de VentasBebidas
 
 // Configuración común para todos los microservicios
 appEventos.use(cors());
@@ -20,6 +22,9 @@ appDJs.use(express.json());
 
 appReservasVIP.use(cors());
 appReservasVIP.use(express.json());
+
+appVentasBebidas.use(cors());
+appVentasBebidas.use(express.json());
 
 // Rutas para eventos
 const eventRoutes = require('./routes/eventRoutes');
@@ -32,6 +37,10 @@ appDJs.use('/NocheInfinita/DJs', djRoutes);
 // Rutas para ReservasVIP
 const reservasVIPRoutes = require('./routes/reservasVIPRoutes');
 appReservasVIP.use('/NocheInfinita/ReservasVIP', reservasVIPRoutes);
+
+// Rutas para VentasBebidas
+const ventasBebidasRoutes = require('./routes/ventasBebidasRoutes');
+appVentasBebidas.use('/NocheInfinita/VentasBebidas', ventasBebidasRoutes);
 
 // Iniciar el servidor para el microservicio de eventos
 appEventos.listen(portEventos, () => {
@@ -46,4 +55,9 @@ appDJs.listen(portDJs, () => {
 // Iniciar el servidor para el microservicio de ReservasVIP
 appReservasVIP.listen(portReservasVIP, () => {
   console.log(`Microservicio ReservasVIP corriendo en el puerto ${portReservasVIP}`);
+});
+
+// Iniciar el servidor para el microservicio de VentasBebidas
+appVentasBebidas.listen(portVentasBebidas, () => {
+  console.log(`Microservicio VentasBebidas corriendo en el puerto ${portVentasBebidas}`);
 });
