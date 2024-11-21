@@ -1,0 +1,50 @@
+# Node.js
+node_modules/
+
+# Archivos de log
+*.log
+
+# Archivos de la base de datos
+*.sql
+*.sqlite
+
+# Directorios de configuración específicos del sistema
+.vscode/
+.idea/
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos de compilación
+/dist/
+build/
+
+# Archivos de pruebas
+coverage/
+
+# Archivos temporales
+*.bak
+*.swp
+*.tmp
+
+# Directorios de depuración
+/.debug/
+
+# Archivos de cache de npm
+.npm/
+
+# Dependencias globales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Base de datos local (si usas un archivo para almacenamiento local)
+database.db
+
+# Archivos del sistema operativo (macOS, Windows, etc.)
+.DS_Store
+Thumbs.db
+
+# Directorios específicos de proyectos (si tienes directorios específicos que no quieres seguir)
