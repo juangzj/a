@@ -95,16 +95,16 @@ const deleteVentaBebida = async (req, res) => {
   }
 };
 
-// Controlador para buscar ventas de bebidas por categoría o método de pago
+ // Buscar ventas de bebidas por categoría o por id_evento
 const searchVentasBebidas = async (req, res) => {
-  const { categoria, metodo_pago } = req.query;
+  const { categoria, id_evento } = req.query;
 
   try {
-    const ventas = await VentasBebidasModel.searchVentasBebidas(categoria, metodo_pago);
-    res.status(200).json(ventas);
+    const ventas = await VentasBebidasModel.searchVentasBebidas(categoria, id_evento);
+    res.status(200).json(ventas); 
   } catch (err) {
-    console.error('Error al buscar las ventas de bebidas:', err);
-    res.status(500).json({ error: 'Error al buscar las ventas de bebidas' });
+    console.error("Error al buscar las ventas de bebidas:", err);
+    res.status(500).json({ error: "Error al buscar las ventas de bebidas" });
   }
 };
 

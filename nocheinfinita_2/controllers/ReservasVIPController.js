@@ -74,16 +74,18 @@ const deleteReservaVIP = (req, res) => {
 };
 
 // Buscar reservas VIP por cliente o estado
-const searchReservasVIP = (req, res) => {
+const searchReservasVIP = async (req, res) => {
   const { cliente_nombre, estado } = req.query;
 
-  ReservasVIPModel.searchReservasVIP(cliente_nombre, estado, (err, reservas) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error al buscar las reservas VIP', error: err });
-    }
-    res.status(200).json(reservas);
-  });
+  try {
+    const reservas = await ReservasVIPModel.searchReservasVIP(cliente_nombre, estado);
+    res.json(reservas); // Devuelve un array con los resultados
+  } catch (err) {
+    console.error("Error al buscar las reservas VIP:", err);
+    res.status(500).json({ message: "Error interno del servidor", error: err });
+  }
 };
+
 
 module.exports = {
   getAllReservasVIP,

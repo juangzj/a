@@ -1,17 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 
-// Crear las instancias de express
-const appEventos = express();      // Para el microservicio de eventos
-const appDJs = express();          // Para el microservicio de DJs
-const appReservasVIP = express();  // Para el microservicio de ReservasVIP
-const appVentasBebidas = express(); // Para el microservicio de VentasBebidas
+
+const appEventos = express();      
+const appDJs = express();         
+const appReservasVIP = express();  
+const appVentasBebidas = express(); 
 
 // Puertos de cada microservicio
 const portEventos = 3001;
 const portDJs = 3003;
 const portReservasVIP = 3002;
-const portVentasBebidas = 3004;  // Puerto para el microservicio de VentasBebidas
+const portVentasBebidas = 3004;  
 
 // Configuración común para todos los microservicios
 appEventos.use(cors());

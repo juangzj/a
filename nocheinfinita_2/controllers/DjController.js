@@ -29,7 +29,6 @@ const getDjById = (req, res) => {
 const createDj = (req, res) => {
   const newDj = req.body;
 
-  // Validación básica
   if (!newDj.nombre_dj || !newDj.estado) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
   }
@@ -47,7 +46,7 @@ const updateDj = (req, res) => {
   const { dj_id } = req.params;
   const updatedDj = req.body;
 
-  // Validación básica
+
   if (!updatedDj.nombre_dj || !updatedDj.estado) {
     return res.status(400).json({ message: 'Faltan campos obligatorios' });
   }
@@ -75,19 +74,20 @@ const deleteDj = (req, res) => {
 };
 
 // Buscar DJs por nombre y estado
-const searchDJs = (req, res) => {
+const searchDJs = async (req, res) => {
   const { nombre_dj, estado } = req.query;
 
   if (!nombre_dj && !estado) {
-    return res.status(400).json({ message: 'Debe proporcionar al menos un parámetro de búsqueda' });
+    return res.status(400).json({ message: "Debe proporcionar al menos un parámetro de búsqueda" });
   }
 
-  DjModel.searchDJs(nombre_dj, estado, (err, djs) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error al buscar los DJs', error: err });
-    }
-    res.status(200).json(djs);
-  });
+  try {
+    const djs = await DjModel.searchDJs(nombre_dj, estado);
+    res.json(djs); // Devuelve un array con los resultados
+  } catch (err) {
+    console.error("Error al buscar los DJs:", err);
+    res.status(500).json({ message: "Error interno del servidor", error: err });
+  }
 };
 
 // Exportamos los métodos

@@ -91,28 +91,29 @@ const deleteReservaVIP = (reserva_id, callback) => {
 };
 
 // Buscar reservas VIP por cliente o estado
-const searchReservasVIP = (cliente_nombre, estado, callback) => {
-  let query = 'SELECT * FROM ReservasVIPs WHERE 1=1';
+const searchReservasVIP = async (cliente_nombre, estado) => {
+  let query = "SELECT * FROM ReservasVIPs WHERE 1=1";
   let params = [];
 
   if (cliente_nombre) {
-    query += ' AND cliente_nombre LIKE ?';
+    query += " AND cliente_nombre LIKE ?";
     params.push(`%${cliente_nombre}%`);
   }
 
   if (estado) {
-    query += ' AND estado = ?';
+    query += " AND estado = ?";
     params.push(estado);
   }
 
-  connection.query(query, params, (err, results) => {
-    if (err) {
-      console.error('Error al buscar las reservas VIP:', err);
-      return callback(err, null);
-    }
-    callback(null, results);
-  });
+  try {
+    const [results] = await connection.promise().query(query, params);
+    return results; // Devuelve un array con los resultados
+  } catch (err) {
+    console.error("Error al buscar las reservas VIP:", err);
+    throw err;
+  }
 };
+
 
 module.exports = {
   getAllReservasVIP,

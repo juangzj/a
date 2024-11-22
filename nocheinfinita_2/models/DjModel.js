@@ -90,37 +90,34 @@ const deleteDj = (dj_id, callback) => {
   });
 };
 
-// Buscar DJs por nombre y estado
-const searchDJs = (nombre_dj, estado, callback) => {
-  let query = 'SELECT * FROM DJs WHERE 1=1';
-  let params = [];
+// Buscar DJs por nombre_dj o estado
+const searchDJs = async (nombre_dj, estado) => {
+  let query = "SELECT * FROM DJs WHERE 1=1";
+  let queryParams = [];
 
-  // Verificar si el parámetro nombre_dj existe
-  if (nombre_dj && nombre_dj.trim() !== '') {
-    query += ' AND nombre_dj LIKE ?';
-    params.push(`%${nombre_dj}%`); // Búsqueda parcial
+  // Verificar si se busca por nombre_dj
+  if (nombre_dj) {
+    query += " AND LOWER(nombre_dj) LIKE ?";
+    queryParams.push(`%${nombre_dj.toLowerCase()}%`); // Búsqueda parcial
   }
 
-  // Verificar si el parámetro estado existe
-  if (estado && estado.trim() !== '') {
-    query += ' AND estado = ?';
-    params.push(estado);
+  // Verificar si se busca por estado
+  if (estado) {
+    query += " AND LOWER(estado) = ?";
+    queryParams.push(estado.toLowerCase());
   }
 
-  // Ejecutar la consulta con los parámetros
-  connection.query(query, params, (err, results) => {
-    if (err) {
-      console.error('Error al buscar los DJs:', err);
-      return callback(err, null);
-    }
-
-    if (results.length === 0) {
-      console.log('No se encontraron DJs que coincidan con los parámetros de búsqueda.');
-    }
-
-    callback(null, results);
-  });
+  try {
+    const [results] = await connection.promise().query(query, queryParams);
+    return results; // Devuelve un array con los resultados
+  } catch (err) {
+    console.error("Error al buscar los DJs:", err);
+    throw err;
+  }
 };
+
+
+
 
 
 module.exports = {

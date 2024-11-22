@@ -3,6 +3,13 @@ const VentasBebidasController = require('../controllers/VentasBebidasController'
 
 const router = express.Router();
 
+// Buscar ventas de bebidas por categoria o por id_evento
+router.get('/ventasbebidas/search', (req, res) => {
+  console.log("Parámetros recibidos en la búsqueda de Ventas de Bebidas:", req.query); // Muestra los parámetros enviados en la petición
+  VentasBebidasController.searchVentasBebidas(req, res);
+});
+
+
 // Obtener todas las ventas de bebidas
 router.get('/ventasbebidas', VentasBebidasController.getAllVentasBebidas);
 
@@ -18,7 +25,6 @@ router.put('/ventasbebidas/:venta_id', VentasBebidasController.updateVentaBebida
 // Eliminar una venta de bebida
 router.delete('/ventasbebidas/:venta_id', VentasBebidasController.deleteVentaBebida);
 
-// Buscar ventas de bebidas por categoría o método de pago
-router.get('/ventasbebidas/search', VentasBebidasController.searchVentasBebidas);
+
 
 module.exports = router;

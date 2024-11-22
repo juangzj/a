@@ -99,26 +99,26 @@ const deleteVentaBebida = async (venta_id) => {
   }
 };
 
-// Buscar ventas de bebidas por categoría o método de pago
-const searchVentasBebidas = async (categoria, metodo_pago) => {
-  let query = 'SELECT * FROM VentasBebidas WHERE 1=1';
+// Buscar ventas de bebidas por categoría o por id_evento
+const searchVentasBebidas = async (categoria, id_evento) => {
+  let query = "SELECT * FROM VentasBebidas WHERE 1=1";
   const params = [];
 
   if (categoria) {
-    query += ' AND categoria = ?';
+    query += " AND categoria = ?";
     params.push(categoria);
   }
 
-  if (metodo_pago) {
-    query += ' AND metodo_pago = ?';
-    params.push(metodo_pago);
+  if (id_evento) {
+    query += " AND evento_id = ?";
+    params.push(id_evento);
   }
 
   try {
     const [results] = await connection.promise().query(query, params);
-    return results;
+    return results; // Devuelve un array con los resultados
   } catch (err) {
-    console.error('Error al buscar las ventas de bebidas:', err);
+    console.error("Error al buscar las ventas de bebidas:", err);
     throw err;
   }
 };
